@@ -60,16 +60,22 @@ print(l_tensor_contig)
 # nicht mehr vorkommen und daher auch nicht übersprungen werden müssen.
 
 # internal storage
+# the pointer to the memory space
 l_data_ptr = l_tensor_contig.data_ptr()
+# the tensors stride
 stride = l_tensor_contig.stride()
+# the tensors dimensions ( to end iteration)
 size = l_tensor_contig.size()
 
-#target array
+# target array
 l_data_raw = np.zeros(size[0]*size[1])
+# iterate the storage
 for i in range(size[0]*size[1]):
     l_data_raw[i] = (ctypes.c_float).from_address(l_data_ptr+i*stride[0]+i*stride[1]).value
 
-# raw array
+# raw array [3. 4. 5. 15. 16. 17.]
 print(l_data_raw)
-# flattend contig array
+# flattend contig array tensor([ 3.,  4.,  5., 15., 16., 17.])
 print(l_tensor_contig.flatten())
+
+# beide Arrays/Tensoren werden als "geplättetes" Array dargestelt, wie sie im Speicher vorliegen
