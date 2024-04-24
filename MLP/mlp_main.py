@@ -13,16 +13,15 @@ train, test = dataloaders.fashionMNIST(64)
 
 # initialize simple MLP model
 mlp = model.MLP()
-mlp_alt = model.MLP_alt()
 try:
     mlp.load_state_dict(torch.load("mlp.pth"))
+    print("MLP loaded successfully")
 except:
     print( "No saved module found")
 print(mlp)
-print(mlp_alt)
 
 # train model
-epochs = 10
+epochs = 20
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------")
     t_loss = trainer.train(nn.CrossEntropyLoss(), train, mlp, opt.SGD(mlp.parameters(), lr=0.001))
@@ -30,15 +29,6 @@ for t in range(epochs):
     print(f"Epoch training loss: {t_loss:>7f}")
     print(f"Epoch test Error: \n Accuracy: {(100*test_correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
 print("Training MLP finished")
-
-for t in range(epochs):
-    print(f"Epoch {t+1}\n-------------------------------")
-    t_loss = trainer.train(nn.CrossEntropyLoss(), train, mlp_alt, opt.SGD(mlp_alt.parameters(), lr=0.001))
-    test_loss, test_correct = tester.test(nn.CrossEntropyLoss(), test, mlp_alt)
-    print(f"Epoch training loss: {t_loss:>7f}")
-    print(f"Epoch test Error: \n Accuracy: {(100*test_correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
-print("Training Alternative MLP finished")
-
 
 torch.save(mlp.state_dict, "mpl.pth")
 print("saved module to mlp.pth")
