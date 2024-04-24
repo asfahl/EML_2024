@@ -20,5 +20,27 @@ class MLP(nn.Module):
         x = self.flatten(x)
         logits = self.layer_stack(x)
         return logits
+    
+
+class MLP_alt(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # flattens two dimensional image tensor into one dimensional tensor
+        self.flatten = nn.Flatten()
+        self.layer_stack = nn.Sequential(
+            # 28x28 = 784
+            nn.Linear(28*28, 256),
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            # Output Layer
+            nn.Linear(64, 10)
+        )
+    def forward(self, x):
+        x = self.flatten(x)
+        logits = self.layer_stack(x)
+        return logits
         
 

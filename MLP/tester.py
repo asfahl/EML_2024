@@ -25,15 +25,15 @@ def test(i_loss_func, io_data_loader, io_model ):
             prediction = io_model(data)
 
             # loss
-            loss = i_loss_func(data, labels)
+            loss = i_loss_func(prediction, labels)
             l_loss_total += loss.item()
 
             # accuracy
-            correct = (prediction.argmax(1) == y).type(torch.float)
+            correct = (prediction.argmax(1) == labels).type(torch.float)
             l_n_correct += correct.sum().item()
 
-            # normalize statistics
-            l_loss_total /= num_batches
-            l_n_correct /= size
+    # normalize statistics
+    l_loss_total /= num_batches
+    l_n_correct /= size
 
-            return l_loss_total, l_n_correct
+    return l_loss_total, l_n_correct

@@ -34,7 +34,7 @@ def train(i_loss_func, io_data_loader, io_model, io_optimizer):
 
         #supervise progress
         if batch % 100 == 0:
-            loss, current = loss.item(), (batch + 1) * len(X)
+            loss, current = loss.item(), (batch + 1) * len(data)
             l_loss_total += loss
             print(f"Batch loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
