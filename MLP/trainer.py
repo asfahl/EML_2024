@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as opt
 import model
+import tester
 
 ## Trains the given MLP-model.
 #  @param i_loss_func used loss function.
@@ -17,6 +18,7 @@ def train(i_loss_func, io_data_loader, io_model, io_optimizer):
     l_loss_total = 0
 
     size = len(io_data_loader.dataset)
+
 
     # iterate over batch
     for batch, (data, labels) in enumerate(io_data_loader):
