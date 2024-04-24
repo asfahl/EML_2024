@@ -34,6 +34,6 @@ def train(i_loss_func, io_data_loader, io_model, io_optimizer):
         if batch % 100 == 0:
             loss, current = loss.item(), (batch + 1) * len(X)
             l_loss_total += loss
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+            print(f"Batch loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
-    return l_loss_total
+    return l_loss_total / len(io_data_loader)
