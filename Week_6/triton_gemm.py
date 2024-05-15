@@ -52,16 +52,14 @@ def matmul_kernel(
         block_ptrs_a  = a_ptr
         if size_a_l > 1:
             block_ptrs_a += (off_l + l) * stride_a_l
-        block_ptrs_a += (off_a_m[:, None] * stride_a_m) \
-                      + (off_k[None, :]   * stride_a_k)
+        block_ptrs_a += (off_a_m[:, None] * stride_a_m) + (off_k[None, :]   * stride_a_k)
 
         block_ptrs_b = b_ptr
         if size_b_l > 1:
             block_ptrs_b += (off_l + l) * stride_b_l
-        block_ptrs_b += (off_k[:, None]   * stride_b_k) \
-                      + (off_b_n[None, :] * stride_b_n)
+        block_ptrs_b += (off_k[:, None]   * stride_b_k) + (off_b_n[None, :] * stride_b_n)
         
-        # accumulate into [BLOCK_SIZE_M; BLOCK_SIZE_N] Block
+        # accumulate into [BLOCK_SIZE_M; BLOCK_SIZE_N] Block for Matrix C
         # accumulator
         accum = tl.zeros( ( BLOCK_SIZE_M,
                                         BLOCK_SIZE_N),
@@ -84,13 +82,39 @@ def matmul_kernel(
             block_ptrs_a += BLOCK_SIZE_K * stride_a_k
             block_ptrs_b += BLOCK_SIZE_K * stride_b_k
 
+        # create pointers for matrix C
         block_ptrs_c = _c_ptr
         block_ptrs_c += (off_l + l) * stride_c_l
         block_ptrs_c += (off_c_m[:, None] * stride_c_m) \
                       + (off_c_n[None, :] * stride_c_n)
 
+        # Write accumulated values to matrix C using masks
         mask_c  = off_c_m[:, None] < size_m
         mask_c &= off_c_n[None, :] < size_n
         tl.store( block_ptrs_c, accum, mask = mask_c )
-            
+
+    
+def triton_MatMul(A, B, activation=""):
+    # sanity checks
+    # dimensions?
+    assert A.shape[2] == B.shape[1]
+    # contigous matrix?
+    assert A.is_contigous()
+
+    # establish dimensions of matrix C
+    size_l = max( A.size( 0 ), B.size( 0 ) )
+    size_m = A.size( 1 )
+    size_n = B.size( 2 )
+    dtype  = A.dtype
+
+    # create matrix C
+    C = torch.empty((size_l, size_m, size_n), device="cuda", dtype=dtype)
+
+    # 1D launch Kernel, own program for each block
+    grid = lambda META: (triton.cdiv(size_l, META["BLOCK_SIZE_L"]) * triton.cdiv(size_m, META["BLOCK_SIZE_M"]) \
+                         *triton.cdiv(size_n, META["BLOCK_SIZE_N"]), )
+    
+    # Call matmul_kernel for matrices A and B and return matrix C
+    matmul_kernel[grid](a_ptr = A, b_ptr = B, c_ptr = C, )
+
 
