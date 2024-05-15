@@ -115,6 +115,17 @@ def triton_MatMul(A, B, activation=""):
                          *triton.cdiv(size_n, META["BLOCK_SIZE_N"]), )
     
     # Call matmul_kernel for matrices A and B and return matrix C
-    matmul_kernel[grid](a_ptr = A, b_ptr = B, c_ptr = C, )
+    matmul_kernel[grid](
+        # pointers
+        a_ptr = A, b_ptr = B, c_ptr = C,
+        # dimensions
+        size_a_l = A.shape[0], size_b_l = B.shape[0], size_m = A.shape[1], size_n = B.shape[2], size_k = A.shape[2],
+        # strides
+        stride_a_l = A.stride( 0 ), stride_a_m = A.stride( 1 ), stride_a_k = A.stride( 2 ), stride_b_l = B.stride( 0 ), 
+        stride_b_k = B.stride( 1 ), stride_b_n = B.stride( 2 ), stride_c_l = C.stride( 0 ), stride_c_m = C.stride( 1 ),
+        stride_c_n = C.stride( 2 )
+        )
+    # return new matrix C
+    return C
 
 
