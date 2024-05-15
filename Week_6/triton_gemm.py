@@ -94,7 +94,7 @@ def matmul_kernel(
         tl.store( block_ptrs_c, accum, mask = mask_c )
 
     
-def triton_MatMul(A, B, activation=""):
+def matmul(A, B, activation=""):
     # sanity checks
     # dimensions?
     assert A.shape[2] == B.shape[1]
