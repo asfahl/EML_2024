@@ -99,7 +99,7 @@ def matmul(A, B, activation=""):
     # dimensions?
     assert A.shape[2] == B.shape[1]
     # contigous matrix?
-    assert A.is_contigous()
+    assert A.is_contiguous()
 
     # establish dimensions of matrix C
     size_l = max( A.size( 0 ), B.size( 0 ) )
