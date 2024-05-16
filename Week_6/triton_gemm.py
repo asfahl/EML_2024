@@ -15,7 +15,7 @@ def is_cuda():
 @triton.jit
 def matmul_kernel(
     #Matrix pointers
-    a_ptr, b_ptr, _c_ptr,
+    a_ptr, b_ptr, c_ptr,
     #Matrix dimensions
     size_m, size_n, size_k, size_a_l, size_b_l,
     #strides
@@ -83,7 +83,7 @@ def matmul_kernel(
             block_ptrs_b += BLOCK_SIZE_K * stride_b_k
 
         # create pointers for matrix C
-        block_ptrs_c = _c_ptr
+        block_ptrs_c = c_ptr
         block_ptrs_c += (off_l + l) * stride_c_l
         block_ptrs_c += (off_c_m[:, None] * stride_c_m) \
                       + (off_c_n[None, :] * stride_c_n)
