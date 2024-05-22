@@ -63,5 +63,10 @@ if __name__ == "__main__":
   l_y_quant = quant_sim.model(l_x)
   print(l_y_quant)
 
-
   print( 'finished' )
+
+  # Get Quantizers
+  print(quant_sim)
+
+  # Export Model
+  quant_sim.export(path = "/mnt/hd2/home/eml_02/EML_2024/Week_7/SimpleModel", filename_prefix = "SimpleModel", dummy_input = l_x)
