@@ -6,15 +6,6 @@ import MLP.mlp_model as mlp_model
 import MLP.mlp_tester as mlp_tester
 import MLP.dataloaders as dataloaders
 
-# 10.1.1
-# compute_encodings
-# Berechnet die optimale Quantisierung der Gewicht und Aktivierungsfkt. eines trainierten
-# Models. Ein representativer Datensatz ist zusätzlich erforderlich.
-#
-# forward_pass_callback
-# Der Parameter von compute_encodings ist eine Callback-Fkt. die die Forward-Fkt. des Modells auf einem gegebenen Datansatz aufruft.
-# Auf Basis des durchlaufs der Forward Funktion errechnet compute_emcodings dann die Quantisierung.
-
 # 10.2
 # load MLP trained for section 4
 model = mlp_model.MLP()
@@ -33,6 +24,8 @@ print(f"Accuracy: {correct}, CrossEntropyLoss: {loss}")
 print("\n")
 
 # Quantize model, standard quantization approch
+# use first sample from the training dataset as dummy_input
+# use standard post_training_tf as quantization_scheme
 dummy_data, dummy_labels = train.dataset[0]
 quant_mlp = qs.QuantizationSimModel(model = model,
                                       dummy_input = dummy_data,
@@ -47,7 +40,8 @@ def mlp_calibrate(io_model, i_use_cuda = False):
     max_batch_number = 16 # 1024 samples
 
     train, test = dataloaders.fashionMNIST(batch_size=batch_size)
-
+    
+    # ensure model is in eval mode
     io_model.eval()
     current_batch_counter=0
     with torch.no_grad():
@@ -62,6 +56,7 @@ quant_mlp.compute_encodings(forward_pass_callback = mlp_calibrate, forward_pass_
 
 # test quatized model
 q_loss, q_correct = mlp_tester.test(torch.nn.CrossEntropyLoss(), test, quant_mlp.model)
+print("\n")
 print("Quantized model evaluation")
 print(f"Accuracy: {q_correct}, CrossEntropyLoss: {q_loss}")
 print("\n")
