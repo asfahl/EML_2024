@@ -11,7 +11,10 @@ import MLP.mlp_model as model
 #  @return summed loss over all test samples, number of correctly predicted samples.
 def test(i_loss_func, io_data_loader, io_model ):
     # set model to testing mode
-    io_model.eval()
+    try:
+        io_model.eval()
+    except:
+        None
 
     # model statistics
     l_loss_total = 0
