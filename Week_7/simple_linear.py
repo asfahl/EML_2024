@@ -1,6 +1,7 @@
 import torch
 import aimet_common.defs
-import aimet_torch.quantsim
+import aimet_torch.quantsim as qs
+
 
 class SimpleLinear( torch.nn.Module ):
   def __init__( self ):
@@ -45,5 +46,22 @@ if __name__ == "__main__":
   print( 'FP32 Result:')
   l_y = l_model( l_x )
   print( l_y )
+
+  # quantify SimpleLinear
+  # l_model, dummy_input is assumed normal distributed random tensor with shape like l_x,
+  # post_training_tf, rounding to nearest int, default_params as in documentation
+  quant_sim = qs.QuantizationSimModel(model = l_model,
+                                      dummy_input = torch.randn_like(l_x),
+                                      quant_scheme = aimet_common.defs.QuantScheme.post_training_tf,
+                                      rounding_mode = "nearest",
+                                      default_param_bw = 8,
+                                      default_output_bw = 8)
+  # use calibrate function for callback
+  quant_sim.compute_encodings(forward_pass_callback = calibrate, forward_pass_callback_args = None)
+  # test quantizated model
+  print("Quantizated Result:")
+  l_y_quant = quant_sim.model(l_x)
+  print(l_y_quant)
+
 
   print( 'finished' )
