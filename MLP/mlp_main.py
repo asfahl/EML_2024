@@ -30,6 +30,6 @@ for t in range(epochs):
     print(f"Epoch test Error: \n Accuracy: {(100*test_correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
 print("Training MLP finished")
 
-torch.save(mlp.state_dict, "mpl.pth")
+torch.save(mlp.state_dict(), "mpl.pth")
 print("saved module to mlp.pth")
 
