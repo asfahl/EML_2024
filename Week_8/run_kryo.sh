@@ -19,8 +19,8 @@ adb shell "mkdir -p ${DEVICE_USER_DIR}/data/imagenet/raw_test/batch_size_32"
 adb shell "touch ${DEVICE_USER_DIR}/resnet18_cpu_fp32/target_raw_list.txt"
 
 for batch in $(seq 0 9); do \
-  adb shell "echo ${DEVICE_USER_DIR}/data/imagenet/raw_test/batch_size_32/inputs_${batch}.raw >> ${DEVICE_USER_DIR}/resnet18_cpu_fp32/target_raw_list.txt"
-  adb push data/imagenet/raw_test/batch_size_32/inputs_${batch}.raw ${DEVICE_USER_DIR}/data/imagenet/raw_test/batch_size_32/inputs_${batch}.raw 
+  adb shell "echo ${DEVICE_USER_DIR}/opt/data/imagenet/raw_test/batch_size_32/inputs_${batch}.raw >> ${DEVICE_USER_DIR}/resnet18_cpu_fp32/target_raw_list.txt"
+  adb push /opt/data/imagenet/raw_test/batch_size_32/inputs_${batch}.raw ${DEVICE_USER_DIR}/opt/data/imagenet/raw_test/batch_size_32/inputs_${batch}.raw 
 done
 
 # execute the model on the device CPU
