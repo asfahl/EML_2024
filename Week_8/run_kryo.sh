@@ -7,15 +7,13 @@ export DEVICE_USER_DIR=/data/local/tmp/david/
 # create directory to host the model and data on device
 adb shell "mkdir -p ${DEVICE_USER_DIR}/resnet18_cpu_fp32"
 
-
 # copy the runner and compiled model to the device
 adb push ${QNN_SDK_ROOT}/bin/aarch64-android/qnn-net-run ${DEVICE_USER_DIR}/resnet18_cpu_fp32
 adb push ${QNN_SDK_ROOT}/lib/aarch64-android/libQnnCpu.so ${DEVICE_USER_DIR}/resnet18_cpu_fp32
 adb push model_libs/aarch64-android/libresnet18_fp32.so ${DEVICE_USER_DIR}/resnet18_cpu_fp32
 
-
 # copy data from host to device and set up target list on device
-adb shell "mkdir -p ${DEVICE_USER_DIR}/data/imagenet/raw_test/batch_size_32"
+adb shell "mkdir -p ${DEVICE_USER_DIR}/opt/data/imagenet/raw_test/batch_size_32"
 adb shell "touch ${DEVICE_USER_DIR}/resnet18_cpu_fp32/target_raw_list.txt"
 
 for batch in $(seq 0 9); do \
