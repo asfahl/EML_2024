@@ -1,11 +1,4 @@
 
-# listing 11.1.1
-conda activate ai_direct
-export QNN_SDK_ROOT=/opt/qcom/aistack/qnn/2.18.0.240101/
-source ${QNN_SDK_ROOT}/bin/envsetup.sh
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/x86_64-linux-gnu/:/opt/anaconda3/envs/ai_direct/lib/
-export PATH=$PATH:/opt/qcom/HexagonSDK/5.5.0.1/tools/android-ndk-r25c
-
 # listing 11.1.2
 # produces a network which expects 32,224,224,3 input data (see model/resnet18_fp32.cpp)
 ${QNN_SDK_ROOT}/bin/x86_64-linux-clang/qnn-onnx-converter \
