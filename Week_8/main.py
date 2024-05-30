@@ -15,7 +15,7 @@ def evaluate(preds, labels):
     correct = 0
     for i in range(31):
         # 1000 labels per prediction
-        pred = torch.nn.Softmax(preds[i*1000 : (i+1)*1000])
+        pred = torch.nn.Softmax(preds[i*1000 : (i+1)*1000]-1)
         if pred == labels[i]:
             correct += 1
     return correct/32
@@ -23,7 +23,7 @@ def evaluate(preds, labels):
 
 i = 0
 i_avgs = 0
-while os.path.exists(f"output/host_fp32/Result_{i}/class_probs.raw"):
+while i < 10:
     preds = np.fromfile(f"output/host_fp32/Result_{i}/class_probs.raw", dtype=np.float32)
     labels = pd.read_csv(f"/opt/data/imagenet/raw_test/batch_size_32/labels_{i}.csv").to_numpy()
     i += 1
@@ -34,7 +34,7 @@ host_accuracy = i_avgs/i
 
 j = 0
 j_avgs = 0
-while os.path.exists(f"output/cpu_fp32/Result_{j}/class_probs.raw"):
+while j < 10:
     preds = np.fromfile(f"output/cpu_fp32/Result_{j}/class_probs.raw", dtype=np.float32)
     labels = pd.read_csv(f"/opt/data/imagenet/raw_test/batch_size_32/labels_{j}.csv").to_numpy()
     j += 1
