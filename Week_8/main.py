@@ -13,10 +13,10 @@ import pandas as pd
 
 def evaluate(preds, labels):
     correct = 0
-    for i in range(31):
+    for i in range(0,31):
         # 1000 labels per prediction
-        pred = torch.nn.Softmax(preds[i*1000 : (i+1)*1000]-1)
-        if pred == labels[i]:
+        pred = np.argmax(preds[(i)*1000 : (i+1)*1000])
+        if pred == labels[i-1]:
             correct += 1
     return correct/32
 
@@ -43,8 +43,32 @@ while j < 10:
 
 cpu_accuracy = j_avgs/j
 
+k = 0
+k_avgs = 0
+while k < 10:
+    preds = np.fromfile(f"output/gpu_fp32/Result_{k}/class_probs.raw", dtype=np.float32)
+    labels = pd.read_csv(f"/opt/data/imagenet/raw_test/batch_size_32/labels_{k}.csv").to_numpy()
+    k += 1
+
+    k_avgs += evaluate(preds, labels)
+
+gpu_accuracy = k_avgs/k
+
+l = 0
+l_avgs = 0
+while l < 10:
+    preds = np.fromfile(f"output/cpu_fp32/Result_{l}/class_probs.raw", dtype=np.float32)
+    labels = pd.read_csv(f"/opt/data/imagenet/raw_test/batch_size_32/labels_{l}.csv").to_numpy()
+    l += 1
+
+    l_avgs += evaluate(preds, labels)
+
+htp_accuracy = l_avgs/l
+
 print(f" Accuracy on Host CPU: {host_accuracy}")
 print(f" Accuracy on SDK CPU: {cpu_accuracy}")
+print(f" Accuracy on SDK GPU: {gpu_accuracy}")
+print(f" Accuracy on SDK HTP: {htp_accuracy}")
 
 # accuracy is zero in both cases, softmax yields much higher values than the labels.
 # not sure how this happens.

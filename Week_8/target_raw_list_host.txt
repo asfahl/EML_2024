@@ -1,0 +1,10 @@
+/opt/data/imagenet/raw_test/batch_size_32/inputs_0.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_1.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_2.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_3.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_4.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_5.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_6.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_7.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_8.raw
+/opt/data/imagenet/raw_test/batch_size_32/inputs_9.raw
