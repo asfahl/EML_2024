@@ -9,9 +9,9 @@
     "Model": {
       "Name": "resnet18_int8",
       "qnn_model": "model_libs/aarch64-android/libresnet18_int8.so",
-      "InputList": "./target_raw_list.txt",
+      "InputList": "./target_raw_list_host.txt",
       "Data": [
-        "data"
+        "/opt/data"
       ]
     },
   
