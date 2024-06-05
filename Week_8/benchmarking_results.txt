@@ -1,0 +1,2 @@
+Benchmarking ignores the InputList and wants to upload all data files to the SDK 
+atleast one file seems corrupted and stops execution of the script 

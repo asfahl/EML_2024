@@ -9,7 +9,7 @@
     "Model": {
       "Name": "resnet18_fp32",
       "qnn_model": "model_libs/aarch64-android/libresnet18_fp32.so",
-      "InputList": "/target_raw_list_host.txt",
+      "InputList": "./target_raw_list_host.txt",
       "Data": [
         "/opt/data"
       ]
