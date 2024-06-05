@@ -1,0 +1,20 @@
+{
+    "Name":"resnet18_fp32",
+    "HostRootPath": "resnet18_fp32.repo",
+    "HostResultsDir":"resnet18_fp32.repo/results",
+    "DevicePath":"/data/local/tmp/alex/qnnbm.repo",
+    "Devices":["3000a4df"],
+    "Runs":10,
+  
+    "Model": {
+      "Name": "resnet18_fp32",
+      "qnn_model": "model_libs/aarch64-android/libresnet18_fp32.so",
+      "InputList": "./target_raw_list.txt",
+      "Data": [
+        "data"
+      ]
+    },
+  
+    "Backends":["CPU", "HTP"],
+    "Measurements": ["timing"]
+  }
