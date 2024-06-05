@@ -4,6 +4,9 @@
 
 # created repo in d4334008
 
+# HTP := DSP V73
+# python qnn_bench.py -c bench_int8.json --dsp_type v73
+
 # meassure accuracy
 import torch
 import numpy as np

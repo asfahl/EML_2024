@@ -3,13 +3,13 @@
     "HostRootPath": "resnet18_fp32.repo",
     "HostResultsDir":"resnet18_fp32.repo/results",
     "DevicePath":"/data/local/tmp/david/qnnbm.repo",
-    "Devices":["3d4334008"],
+    "Devices":["d4334008"],
     "Runs":10,
   
     "Model": {
       "Name": "resnet18_fp32",
       "qnn_model": "model_libs/aarch64-android/libresnet18_fp32.so",
-      "InputList": "./target_raw_list_host.txt",
+      "InputList": "/target_raw_list_host.txt",
       "Data": [
         "/opt/data"
       ]
