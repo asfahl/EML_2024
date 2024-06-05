@@ -2,8 +2,8 @@
     "Name":"resnet18_fp32",
     "HostRootPath": "resnet18_fp32.repo",
     "HostResultsDir":"resnet18_fp32.repo/results",
-    "DevicePath":"/data/local/tmp/alex/qnnbm.repo",
-    "Devices":["3000a4df"],
+    "DevicePath":"/data/local/tmp/david/qnnbm.repo",
+    "Devices":["3d4334008"],
     "Runs":10,
   
     "Model": {
