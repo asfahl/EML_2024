@@ -9,9 +9,18 @@
     "Model": {
       "Name": "resnet18_fp32",
       "qnn_model": "model_libs/aarch64-android/libresnet18_fp32.so",
-      "InputList": "./target_raw_list_host.txt",
+      "InputList": "target_raw_list_host.txt",
       "Data": [
-        "/opt/data"
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_0.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_1.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_2.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_3.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_4.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_5.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_6.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_7.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_8.raw",
+        "/opt/data/imagenet/raw_test/batch_size_32/inputs_9.raw"
       ]
     },
   

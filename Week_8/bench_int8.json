@@ -11,7 +11,7 @@
       "qnn_model": "model_libs/aarch64-android/libresnet18_int8.so",
       "InputList": "target_raw_list_host.txt",
       "Data": [
-        "/opt/data"
+        "/home/eml_02/EML_exercises/EML_2024/Week_8/bench_input"
       ]
     },
   
