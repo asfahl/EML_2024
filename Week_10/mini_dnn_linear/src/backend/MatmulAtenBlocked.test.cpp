@@ -34,10 +34,16 @@ TEST_CASE( "Tests the Matmul forward operator through blocked Aten calls.",
   // X: nb x cb x bc x bn
   // W: kb x cb x bk x bc
   // Y: kb x nb x bk x bn
+  at::Tensor X = at::Tensor::reshape(l_x, {l_size_nb, l_size_cb, l_size_bc, l_size_bn});
+  at::Tensor W = at::Tensor::reshape(l_w, {l_size_kb, l_size_cb, l_size_bk, l_size_bc});
+  at::Tensor Y = at::zeros({l_size_kb, l_size_nb, l_size_bk, l_size_bn});
 
   // compute reference
-  // at::Tensor l_reference = at::matmul( l_x, l_w );
+  at::Tensor l_reference = at::matmul( l_x, l_w );
+  Y = at::Tensor mini_dnn::backend::MatmulAtenBlocked::forward(X, Y);
+
+  l_y = at::Tensor::reshape(Y, {l_size_n, l_size_k})
 
   // check solution
-  // REQUIRE( at::allclose( l_y, l_reference ) );
+  REQUIRE( at::allclose( l_y, l_reference ) );
 }

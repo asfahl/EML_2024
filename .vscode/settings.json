@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "cstdlib": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/eml_02/EML_2024/Week_10/mini_dnn_linear/libxsmm"
 }
