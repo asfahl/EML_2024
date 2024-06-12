@@ -14,5 +14,5 @@ cd ..
 
 CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 make all
 
-LIBXSMM_TARGET=aarch64./build/test
-LIBXSMM_TARGET=aarch64./build/performance_matmul
+LIBXSMM_TARGET=aarch64 ./build/test
+LIBXSMM_TARGET=aarch64 ./build/performance_matmul
