@@ -54,3 +54,6 @@ convert to parallel loops
 iree-opt --pass-pipeline="builtin.module(func.func(convert-linalg-to-parallel-loops))" compiled/add_Linalg.mlir -o compiled/add_ParaLoop.mlir
 ...
 not seeing much difference
+
+### Generic Matmul
+using code from https://mlir.llvm.org/docs/Dialects/Linalg/#linalggeneric-linalggenericop, 3x2 X 2x3 input with 3x3 output
