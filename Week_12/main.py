@@ -11,13 +11,13 @@ def run(rank, size):
     return
 
 # adapted from ollama Mistral
-def initialize_distributed():
+def init_process(rank, fn):
     os.environ["MASTER_ADDR"] = "localhost"  # Set the master address to localhost
+    os.environ["MASTER_PORT"] = "0"
     os.environ["WORLD_SIZE"] = str(torch.cuda.device_count())  # Get the number of GPUs in the Grace system
-    rank = int(os.environ["RANK"])  # Get the current rank from environment variable
-
-    torch.cuda.set_device(rank)  # Set the device to the current GPU (for this rank)
-    dist.init_process_group(backend="MPI")  # Initialize the MPI backend for distributed communication
+    torch.cuda.device(rank)  # Set the device to the current GPU (for this rank)
+    dist.init_process_group(backend="gloo", rank=rank, world_size= int(os.environ["WORLD_SIZE"]))  # Initialize the MPI backend for distributed communication
+    fn(rank, os.environ["WORLD_SIZE"])
 
 
 if __name__ == "__main__":
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     processes = []
     mp.set_start_method("spawn")
     for rank in range(size):
-        p = mp.Process(target=init_process, args=(rank, size, run))
+        p = mp.Process(target=init_process, args=[rank, run])
         p.start()
         processes.append(p)
     
