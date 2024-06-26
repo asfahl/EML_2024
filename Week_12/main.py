@@ -2,14 +2,10 @@ import os
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
+import dist_fkts as fkt
 
 # Adaptet from Pytorch documentation
-def run(rank, size):
-    print(f"Rank: {dist.get_rank()}")
-    print(f"Size: {dist.get_world_size()}")
-    return
-
-
+# generate the environment
 def init_process(rank, size, fn, backend='MPI'):
     """ Initialize the distributed environment. """
     os.environ['MASTER_ADDR'] = 'localhost'
@@ -18,12 +14,13 @@ def init_process(rank, size, fn, backend='MPI'):
     fn(rank, size)
 
 
+# 1. Aufgabe, Prozesse erstellen
 if __name__ == "__main__":
     size = 5
     processes = []
     mp.set_start_method("spawn")
     for rank in range(size):
-        p = mp.Process(target=init_process, args=(rank, size, run))
+        p = mp.Process(target=init_process, args=(rank, size, fkt.run))
         p.start()
         processes.append(p)
 
@@ -43,3 +40,29 @@ if __name__ == "__main__":
 #Rank: 0
 #Size: 1
 # Why has everything rank 0?
+
+# 2. Aufgabe, geblockte Tensoren
+if __name__ == "__main__":
+    size = 5
+    processes = []
+    #mp.set_start_method("spawn")
+    for rank in range(size):
+        p = mp.Process(target=init_process, args=(rank, size, fkt.blocked_tensors))
+        p.start()
+        processes.append(p)
+
+    for p in processes:
+        p.join()
+
+# 3. Aufgabe, ungeblockte Tensoren
+if __name__ == "__main__":
+    size = 5
+    processes = []
+    #mp.set_start_method("spawn")
+    for rank in range(size):
+        p = mp.Process(target=init_process, args=(rank, size, fkt.unblocked_tensors))
+        p.start()
+        processes.append(p)
+
+    for p in processes:
+        p.join()
