@@ -8,8 +8,8 @@ import dist_fkts as fkt
 # generate the environment
 def init_process(rank, size, fn, backend='MPI'):
     """ Initialize the distributed environment. """
-    os.environ['MASTER_ADDR'] = 'localhost'
-    os.environ['MASTER_PORT'] = '0'
+    #os.environ['MASTER_ADDR'] = 'localhost'
+    #os.environ['MASTER_PORT'] = '0'
     dist.init_process_group(backend, rank=rank, world_size=size)
     fn(rank, size)
 
@@ -66,3 +66,18 @@ if __name__ == "__main__":
 
     for p in processes:
         p.join()
+
+# 4. Aufgabe, all_reduce
+if __name__ == "__main__":
+    size = 5
+    processes = []
+    tensor = torch.tensor(np.arange(12)).reshape((3,4))
+    #mp.set_start_method("spawn")
+    for rank in range(size):
+        p = mp.Process(target=init_process, args=(rank, size, fkt.unblocked_tensors))
+        p.start()
+        processes.append(p)
+
+    for p in processes:
+        p.join()
+    print(dist.all_reduce(tensor, op=ReduceOp.SUM))
