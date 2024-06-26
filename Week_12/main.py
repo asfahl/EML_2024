@@ -21,5 +21,13 @@ def initialize_distributed():
 
 
 if __name__ == "__main__":
-    mp.spawn(run, nprocs=int(os.environ["WORLD_SIZE"]), args=(int(os.environ["WORLD_SIZE"]),))  # Spawn the processes for each GPU
-    initialize_distributed()  # Initialize the distributed environment before running the tasks
+    size = 2
+    processes = []
+    mp.set_start_method("spawn")
+    for rank in range(size):
+        p = mp.Process(target=init_process, args=(rank, size, run))
+        p.start()
+        processes.append(p)
+    
+    for p in processes:
+        p.join()
